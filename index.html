@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css" integrity="sha512-EZLkOqwILORob+p0BXZc+Vm3RgJBOe1Iq/0fiI7r/wJgzOFZMlsqTa29UEl6v6U6gsV4uIpsNZoV32YZqrCRCQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/src/style.css">
+    <title>Document</title>
+  </head>
+  <body>
+    <header>
+      <form>
+        <label for="city">
+          <input
+            type="text"
+            id="city"
+            name="city"
+            placeholder="Search by city, country code" />
+          <button type="submit">Search</button>
+          <div class="error"></div>
+        </label>
+      </form>
+    </header>
+    <main>
+      <div class="left-info">
+        <div class="location"></div>
+        <div class="weather-general">
+          <p class="weather"></p>
+          <img class="icon" src="" />
+        </div>
+
+        <div class="date">Wednesday, 19 Oct 2022</div>
+
+        <div class="time">4:11pm</div>
+
+        <div class="degree"></div>
+
+        <label class="toggle">
+          <input type="checkbox" />
+          <span class="slider"></span>
+          <span class="labels" data-on="&#176;C" data-off="&#176;F"></span>
+        </label>
+      </div>
+
+      <div class="right-info">
+        <div class="humidity">Humidity:</div>
+        <div class="feel-like">Feel Like:</div>
+        <div class="wind-speed">Wind speed:</div>
+      </div>
+    </main>
+    <script src="main.js"></script>
+  </body>
+</html>
