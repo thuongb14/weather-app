@@ -2,9 +2,11 @@ import moment from 'moment';
 
 const error = document.querySelector('.error');
 const form = document.querySelector('form');
-
+const toggle = document.querySelector('input[type="checkbox"]');
+const leftInfo = document.querySelector('.left-info')
+const rightInfo = document.querySelector('.right-info')
 let degreeC = true;
-let chosenDegree = ``;
+let chosenDegree = `&#176C`;
 
 async function getWeatherData(city) {
   try {
@@ -21,27 +23,34 @@ async function getWeatherData(city) {
 }
 
 function updateData(data) {
-  const celcius = Math.round(data.main.temp - 273.15);
-  const name = data.name;
-  const country = data.sys.country;
-  const stat = data.weather[0].main;
-  const icon = data.weather[0].icon;
-  const max = data.main.temp_max;
-  const min = data.main.temp_min;
+  let celcius = data.main.temp;
+  let name = data.name;
+  let country = data.sys.country;
+  let stat = data.weather[0].main;
+  let icon = data.weather[0].icon;
+  let max = data.main.temp_max;
+  let min = data.main.temp_min;
   if (degreeC) {
-    let max = Math.round(max - 273.15);
-    let min = Math.round(min - 273.15);
+    celcius = Math.round(celcius - 273.15)
+    max = Math.round(max - 273.15);
+    min = Math.round(min - 273.15);
   } else if (!degreeC) {
-    let max = Math.round(max - 273.15);
-    let min = Math.round(min - 273.15);
+    celcius = Math.round(1.8*(celcius-273) + 32)
+    max = Math.round(1.8*(max-273) + 32);
+    min = Math.round(1.8*(min-273) + 32);
   }
   updateMainWeather(celcius, name, country, stat, icon, max, min);
 }
 
 async function updateInfoData(data) {
-  const humidity = await data.main.humidity;
-  const feelLike = Math.round(data.main.feels_like - 273.15);
-  const windSpeed = await data.wind.speed;
+  let humidity = await data.main.humidity;
+  let feelLike = await data.main.feels_like;
+  let windSpeed = await data.wind.speed;
+  if(degreeC) {
+    feelLike = Math.round(feelLike - 273.15)
+  } else if(!degreeC) {
+    feelLike = Math.round(1.8*(feelLike - 273) + 32)
+  }
   updateInfoWeather(humidity, feelLike, windSpeed);
 }
 
@@ -54,7 +63,7 @@ function updateMainWeather(celcius, name, country, stat, icon, max, min) {
   const time = document.querySelector('.time');
   const maxTemp = document.querySelector('.max');
   const minTemp = document.querySelector('.min');
-  degree.innerHTML = `${celcius}&#176C`;
+  degree.innerHTML = `${celcius}${chosenDegree}`;
   location.textContent = `${name}, ${country}`;
   weather.textContent = stat;
   img.src = `http://openweathermap.org/img/wn/${icon}.png`;
@@ -62,8 +71,8 @@ function updateMainWeather(celcius, name, country, stat, icon, max, min) {
     'MMMM Do YYYY'
   )}`;
   time.textContent = moment().format('LT');
-  maxTemp.innerHTML = `H: ${max}{&#176C}`;
-  minTemp.innerHTML = `L: ${min}&#176C`;
+  maxTemp.innerHTML = `H: ${max}${chosenDegree}`;
+  minTemp.innerHTML = `L: ${min}${chosenDegree}`;
 }
 
 function updateInfoWeather(humidity, feelLike, windSpeed) {
@@ -71,27 +80,46 @@ function updateInfoWeather(humidity, feelLike, windSpeed) {
   const feelLikeDegree = document.querySelector('.feel-like-degree');
   const windSpeedDegree = document.querySelector('.wind-speed-degree');
   humidDegree.textContent = `${humidity}%`;
-  feelLikeDegree.innerHTML = `${feelLike}&#176;C`;
+  feelLikeDegree.innerHTML = `${feelLike}${chosenDegree}`;
   windSpeedDegree.textContent = `${windSpeed} km/h`;
 }
+
+
+function animation() {
+  leftInfo.classList.add('fade-in')
+  rightInfo.classList.add('fade-in')
+  setTimeout(function() {
+    leftInfo.classList.remove('fade-in')
+    rightInfo.classList.remove('fade-in')
+  }, 1000)
+}
+
 
 form.addEventListener('submit', function (e, input) {
   e.preventDefault();
   error.textContent = '';
   input = document.getElementById('city').value;
   getWeatherData(input);
+  animation()
   form.reset();
 });
 
-getWeatherData('Melbourne, Au');
-
-const toggle = document.querySelector('input[type="checkbox"]');
-
 toggle.addEventListener('change', function () {
-  if (toggle.checked) {
+    let currentCity = document.querySelector('.location').textContent
+  if (!toggle.checked) {
     degreeC = true;
-    chosenDegree = `&#176;C`;
+    chosenDegree = `&#176C`
+    getWeatherData(currentCity);
   } else {
-    console.log('f');
+    degreeC = false;
+    chosenDegree = `&#176F`
+    getWeatherData(currentCity)
   }
 });
+
+window.onload = function() {
+  getWeatherData('Melbourne, Au');
+  animation()
+}
+
+
