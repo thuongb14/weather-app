@@ -137,3 +137,10 @@ main {
 .toggle input:checked ~ .labels::before {
   opacity: 1;
 }
+
+.right-info-details {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: flex-start;
+  gap: 1rem;
+}
