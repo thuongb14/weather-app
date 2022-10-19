@@ -3,8 +3,8 @@ import moment from 'moment';
 const error = document.querySelector('.error');
 const form = document.querySelector('form');
 const toggle = document.querySelector('input[type="checkbox"]');
-const leftInfo = document.querySelector('.left-info')
-const rightInfo = document.querySelector('.right-info')
+const leftInfo = document.querySelector('.left-info');
+const rightInfo = document.querySelector('.right-info');
 let degreeC = true;
 let chosenDegree = `&#176C`;
 
@@ -31,13 +31,13 @@ function updateData(data) {
   let max = data.main.temp_max;
   let min = data.main.temp_min;
   if (degreeC) {
-    celcius = Math.round(celcius - 273.15)
+    celcius = Math.round(celcius - 273.15);
     max = Math.round(max - 273.15);
     min = Math.round(min - 273.15);
   } else if (!degreeC) {
-    celcius = Math.round(1.8*(celcius-273) + 32)
-    max = Math.round(1.8*(max-273) + 32);
-    min = Math.round(1.8*(min-273) + 32);
+    celcius = Math.round(1.8 * (celcius - 273) + 32);
+    max = Math.round(1.8 * (max - 273) + 32);
+    min = Math.round(1.8 * (min - 273) + 32);
   }
   updateMainWeather(celcius, name, country, stat, icon, max, min);
 }
@@ -46,10 +46,10 @@ async function updateInfoData(data) {
   let humidity = await data.main.humidity;
   let feelLike = await data.main.feels_like;
   let windSpeed = await data.wind.speed;
-  if(degreeC) {
-    feelLike = Math.round(feelLike - 273.15)
-  } else if(!degreeC) {
-    feelLike = Math.round(1.8*(feelLike - 273) + 32)
+  if (degreeC) {
+    feelLike = Math.round(feelLike - 273.15);
+  } else if (!degreeC) {
+    feelLike = Math.round(1.8 * (feelLike - 273) + 32);
   }
   updateInfoWeather(humidity, feelLike, windSpeed);
 }
@@ -84,42 +84,38 @@ function updateInfoWeather(humidity, feelLike, windSpeed) {
   windSpeedDegree.textContent = `${windSpeed} km/h`;
 }
 
-
 function animation() {
-  leftInfo.classList.add('fade-in')
-  rightInfo.classList.add('fade-in')
-  setTimeout(function() {
-    leftInfo.classList.remove('fade-in')
-    rightInfo.classList.remove('fade-in')
-  }, 1000)
+  leftInfo.classList.add('fade-in');
+  rightInfo.classList.add('fade-in');
+  setTimeout(function () {
+    leftInfo.classList.remove('fade-in');
+    rightInfo.classList.remove('fade-in');
+  }, 1000);
 }
-
 
 form.addEventListener('submit', function (e, input) {
   e.preventDefault();
   error.textContent = '';
   input = document.getElementById('city').value;
   getWeatherData(input);
-  animation()
+  animation();
   form.reset();
 });
 
 toggle.addEventListener('change', function () {
-    let currentCity = document.querySelector('.location').textContent
+  let currentCity = document.querySelector('.location').textContent;
   if (!toggle.checked) {
     degreeC = true;
-    chosenDegree = `&#176C`
+    chosenDegree = `&#176C`;
     getWeatherData(currentCity);
   } else {
     degreeC = false;
-    chosenDegree = `&#176F`
-    getWeatherData(currentCity)
+    chosenDegree = `&#176F`;
+    getWeatherData(currentCity);
   }
 });
 
-window.onload = function() {
+window.onload = function () {
   getWeatherData('Melbourne, Au');
-  animation()
-}
-
-
+  animation();
+};
