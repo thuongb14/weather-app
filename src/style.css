@@ -1,0 +1,139 @@
+body {
+  background-image: url(https://images.unsplash.com/photo-1508108712903-49b7ef9b1df8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80);
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 100vh;
+}
+
+form {
+  position: relative;
+  float: right;
+  margin: 1rem 5rem;
+}
+
+button {
+  border-color: white;
+  color: white;
+}
+
+main {
+  position: relative;
+  width: 90%;
+  top: 10%;
+  padding-left: 10%;
+  font-family: 'Noto Sans', sans-serif;
+  font-weight: bold;
+  color: white;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.weather {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.location {
+  margin: 0;
+  font-weight: bold;
+  font-size: 4rem;
+}
+.degree {
+  font-size: 130px;
+}
+
+.weather-general {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.right-info {
+  margin-right: 10%;
+}
+
+.toggle {
+  --width: 60px;
+  --height: calc(var(--width) / 2);
+  position: relative;
+  width: var(--width);
+  height: var(--height);
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
+  border-radius: var(--height);
+  cursor: pointer;
+}
+
+.toggle input {
+  display: none;
+}
+
+.toggle .slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--height);
+  background-color: #ccc;
+  transition: all 0.4s ease-in-out;
+}
+
+.toggle .slider::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(var(--height));
+  height: calc(var(--height));
+  border-radius: calc(var(--height) / 2);
+  background-color: #fff;
+  transition: all 0.4s ease-in-out;
+}
+
+.toggle input:checked + .slider {
+  background-color: #2196f3;
+}
+
+.toggle input:checked + .slider::before {
+  transform: translateX(calc(var(--width) - var(--height)));
+}
+
+.toggle .labels {
+  position: absolute;
+  top: 5px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  font-size: 14px;
+  transition: all 0.4s ease-in-out;
+}
+
+.toggle .labels::after {
+  content: attr(data-off);
+  position: absolute;
+  right: 8px;
+  color: #4d4d4d;
+  transition: all 0.4s ease-in-out;
+}
+
+.toggle .labels::before {
+  content: attr(data-on);
+  position: absolute;
+  left: 8px;
+  color: #ffffff;
+  opacity: 0;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.4);
+  transition: all 0.4s ease-in-out;
+}
+
+.toggle input:checked ~ .labels::after {
+  opacity: 0;
+}
+
+.toggle input:checked ~ .labels::before {
+  opacity: 1;
+}
